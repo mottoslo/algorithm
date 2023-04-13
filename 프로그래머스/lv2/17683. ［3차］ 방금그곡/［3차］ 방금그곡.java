@@ -17,10 +17,10 @@ class Solution {
             Collections.sort(melodies, new Comparator<Map.Entry<String, String>>() {
                 @Override
                 public int compare(Map.Entry<String, String> o1, Map.Entry<String, String> o2) {
+                    
                     return o1.getKey().length() - o2.getKey().length();
                 }
             });
-            // return melodies.get(0).getValue();
         }
         for(Map.Entry<String, String> entry:melodies){
             if (maxlen < entry.getKey().length()){
