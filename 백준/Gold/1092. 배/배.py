@@ -14,7 +14,7 @@ def calculateMinTime(numCrane, numBox):
 MINTIME = calculateMinTime(nCrane, nBox)
 
 offset = 0
-if max(boxWeightList) > max(craneMaxList):
+if boxWeightList[0] > craneMaxList[0]:
     print(-1)
 else:
     craneId = 0
@@ -27,5 +27,4 @@ else:
         boxId += 1
     newTime = calculateMinTime(craneId + 1, nBox)
     MINTIME = max(MINTIME, newTime)
-    print(MINTIME)
-            
+    print(MINTIME)   # ㅅㅂ 프린트 else문 안에 안넣어서 몇시간날렸을까....
