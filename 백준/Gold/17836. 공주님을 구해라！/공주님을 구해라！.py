@@ -1,30 +1,39 @@
+import sys
 from collections import deque
-n,m,T=map(int,input().split())
-maps=[list(map(int, input().split())) for _ in range(n)]
-visit=[[0 for _ in range(m)] for _ in range(n)]
-q=deque()
-q.append((0,0,0))
-dx,dy=(-1,1,0,0),(0,0,-1,1)
-result=float('inf')
-while q:
-    x,y,t=q.popleft()
-    if x==n-1 and y==m-1:
-        result=min(result,t)
-        break
-    if t+1>T : break
-    for dir in range(4):
-        nx,ny=x+dx[dir],y+dy[dir]
-        if 0<=nx<n and 0<=ny<m and visit[nx][ny]==0:
-            if maps[nx][ny]==1: continue
-            elif maps[nx][ny]==0:
-                visit[nx][ny]=True
-                q.append((nx,ny,t+1))
-            else:
-                visit[nx][ny]=True
-                tmp=t+1+abs(nx-(n-1))+abs(ny-(m-1))
-                if tmp<=T:
-                    result=tmp
-if result>T:
-    print("Fail")
+
+N, M, T = map(int,sys.stdin.readline().split())
+world = [list(map(int,sys.stdin.readline().split())) for _ in range(N)]
+
+ans = 999999
+def bfs():
+    global ans
+    dx = [-1, 1, 0, 0]
+    dy = [0, 0, -1, 1]
+    queue = deque()
+    queue.append((0, 0, 0))
+    world[0][0] = 1
+    
+    while queue:
+        x, y, count = queue.popleft()
+        if count > T:
+            return count
+        if x == N-1 and y == M-1:
+            return count
+        for i in range(4):
+            nx = x + dx[i]
+            ny = y + dy[i]
+            if (0<= nx < N) and (0 <= ny < M) and (world[nx][ny] != 1):
+                queue.append((nx, ny, count + 1))
+                if world[nx][ny] == 2:
+                    ans = min(ans, count + 1 + N-1-nx + M-1-ny)
+                world[nx][ny] = 1
+    return ans
+
+cnt = bfs()
+ans = min(ans,cnt)
+if ans > T:
+    print('Fail')
 else:
-    print(result)
+    print(ans)
+
+        
