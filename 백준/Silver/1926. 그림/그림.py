@@ -2,10 +2,7 @@ import sys
 sys.setrecursionlimit(1000000)
 #입력
 N, M = map(int, sys.stdin.readline().split())
-coordSet = set()
-for i in range(N):
-    for j in range(M):
-        coordSet.add((i,j))
+visited = [[0] * M for _ in range(N)]
 
 map = [list(map(int, sys.stdin.readline().split())) for _ in range(N)]
 dx = [0,0,1,-1]
@@ -16,30 +13,30 @@ anscnt = 0
 def dfs(x,y):
     global anscnt, size
 
-
     for i in range(4):
         nx, ny = x+dx[i], y+dy[i]
-        if (0 <= nx < N) and (0 <= ny < M) and coordSet.__contains__((nx, ny)):
+        if (0 <= nx < N) and (0 <= ny < M) and visited[nx][ny] == 0:
             if map[nx][ny] == 0:
-                coordSet.remove((nx,ny))
+                visited[nx][ny] = 1
                 continue
             else:
-                coordSet.remove((nx,ny))
+                visited[nx][ny] = 1
                 size += 1
                 dfs(nx,ny)
 
 
-while(len(coordSet) != 0):
-    x,y = coordSet.pop()
-    if map[x][y] == 0:
-        continue
-    else:
-        size = 1
-        dfs(x,y)
-        MAXSIZE = max(MAXSIZE, size)
-        anscnt += 1
+for x in range(N):
+    for y in range(M):
+        if visited[x][y] == 1:
+            continue
+        if map[x][y] == 0:
+            continue
+        else:
+            visited[x][y] = 1
+            size = 1
+            dfs(x,y)
+            MAXSIZE = max(MAXSIZE, size)
+            anscnt += 1
 
 print(anscnt)
 print(MAXSIZE)
-
-
