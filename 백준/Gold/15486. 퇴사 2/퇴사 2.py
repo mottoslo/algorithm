@@ -31,3 +31,7 @@ def calcF(n):
 for day in range(N-1, -1,-1):
     F[day] = calcF(day)
 print(F[0])
+    
+    
+    
+
