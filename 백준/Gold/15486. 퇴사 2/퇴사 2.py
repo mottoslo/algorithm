@@ -12,12 +12,7 @@ for i in range(N):
     
 
 def calcF(n):
-    if n == N-1:
-        if T[n] == 1:
-            return P[n]
-        else:
-            return 0
-    
+
     p_n = P[n]
     endDate = n + T[n] - 1
     freeDate = endDate + 1
@@ -28,8 +23,14 @@ def calcF(n):
         return F[n+1]
     
 
-for day in range(N-1, -1,-1):
+if T[-1] == 1:
+    F[-1] = P[-1]
+else:
+    F[-1] = 0
+
+for day in range(N-2, -1,-1):
     F[day] = calcF(day)
+
 print(F[0])
     
     
