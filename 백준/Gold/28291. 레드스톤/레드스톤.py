@@ -6,8 +6,6 @@ W, H = map(int,input().split())
 N = int(input())
 ENERGY = [[0 for _ in range(H)] for _ in range(W)]
 INFO = [[0 for _ in range(H)] for _ in range(W)]
-redstone_dust = set()
-redstone_block = set()
 redstone_lamp = set() # 불이 꺼진 lamp들을 모아놓기
                       # lamp는 한번 불이켜지면 계속 켜진다. (block이 계속 에너지 주니까)
 
@@ -19,7 +17,6 @@ for i in range(N):
     x, y = map(int,(x, y))
     if stone == 'redstone_dust':
         INFO[x][y] = 1
-        redstone_dust.add((x,y))
     
     elif stone == 'redstone_block':
         ENERGY[x][y] = 15
@@ -45,7 +42,7 @@ def do_dust(x, y, actionque):
                     ENERGY[nx][ny] = myenergy - 1
                     actionque.append((nx, ny, 1))
                 elif INFO[nx][ny] == 3:
-                    actionque.append((nx, ny, 3))
+                    redstone_lamp.discard((nx,ny))
 
 def do_block(x, y, actionque):
     for i in range(4):
@@ -55,10 +52,7 @@ def do_block(x, y, actionque):
                 ENERGY[nx][ny] = 15
                 actionque.append((nx, ny, 1))
             elif INFO[nx][ny] == 3:  #lamp
-                actionque.append((nx, ny, 3))
-
-def do_lamp(x, y, lampset : set):
-    lampset.discard((x,y))
+                redstone_lamp.discard((nx,ny))
 
 while(len(actionque) > 0 and len(redstone_lamp) > 0):
     x, y, type = actionque.popleft()
@@ -66,8 +60,6 @@ while(len(actionque) > 0 and len(redstone_lamp) > 0):
         do_dust(x, y, actionque)
     elif type == 2:
         do_block(x, y, actionque)
-    elif type == 3:
-        do_lamp(x, y, redstone_lamp)
 
 if len(redstone_lamp) == 0:
     print('success')
