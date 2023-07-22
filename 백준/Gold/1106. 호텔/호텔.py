@@ -18,10 +18,10 @@ DP = [999999 for _ in range(C + max_client)]
 DP[0] = 0
 
 for target in range(C + max_client):
-    for n,c in sorted(zip(client,cost), key = lambda x : x[0] / x[1]):
+    for n,c in sorted(zip(client,cost)):
         if target - n >= 0:
             DP[target] = min(DP[target], DP[target-n] + c)
 
 print(min(DP[C:]))
 
-    
+# key = lambda x : x[0] / x[1]
