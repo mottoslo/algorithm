@@ -33,7 +33,7 @@ while boan_que:
             boan_visited[connected_computer] = 1
             unprotected_computers.remove(connected_computer)
 
-if len(unprotected_computers) != 0: #해킹할 수 있고, 보안이 안닿는 컴퓨터가 있어도 얻을 수 있는돈이 무한인지는 확인해봐야함
+if len(unprotected_computers) != 0: #보안이 안닿는 컴퓨터가 있어도 얻을 수 있는돈이 무한인지는 확인해봐야함
     for unprotected_computer in unprotected_computers:
         if value[unprotected_computer] != 0:
             print(-1)
@@ -41,5 +41,3 @@ if len(unprotected_computers) != 0: #해킹할 수 있고, 보안이 안닿는 �
 
 anstable = sorted((int(time_boan[i]) * value[i] for i in range(N)), reverse=True)
 print(sum(anstable[:X]))
-
-
